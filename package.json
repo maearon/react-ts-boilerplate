@@ -6,12 +6,28 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/blueimp-md5": "^2.18.2",
+    "@types/node": "^22.15.14",
+    "@types/react-paginate": "^7.1.4",
+    "@typescript-eslint/eslint-plugin": "^8.32.0",
+    "@typescript-eslint/parser": "^8.32.0",
+    "blueimp-md5": "^2.19.0",
+    "bootstrap": "^5.3.6",
+    "date-fns": "^4.1.0",
+    "formik": "^2.4.6",
+    "ky": "^1.8.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-bootstrap": "^2.10.9",
+    "react-dom": "^19.1.0",
+    "react-paginate": "^8.3.0",
+    "react-router-dom": "^6.30.0",
+    "react-toastify": "^11.0.5",
+    "yup": "^1.6.1",
+    "zustand": "^5.0.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
