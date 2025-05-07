@@ -1,13 +1,14 @@
 import ky from "ky"
 import { useAuthStore } from "@/stores/authStore"
 
-// Base API URL
-const BASE_URL = "https://ruby-rails-boilerplate-3s9t.onrender.com/api"
+let BASE_URL = ""
+if (process.env.NODE_ENV === "development") {
+  BASE_URL = "http://localhost:3000/api"
+} else {
+  BASE_URL = "https://ruby-rails-boilerplate-3s9t.onrender.com/api"
+}
 
-// Create a custom Ky instance
 const createKyInstance = () => {
-  const authStore = useAuthStore.getState()
-
   return ky.create({
     prefixUrl: BASE_URL,
     headers: {
@@ -28,12 +29,9 @@ const createKyInstance = () => {
       ],
       afterResponse: [
         async (request, options, response) => {
-          // Handle 401 Unauthorized errors
           if (response.status === 401 && !request.url.includes("/sessions") && !request.url.includes("/refresh")) {
             try {
-              // Try to refresh the token
               const refreshToken = localStorage.getItem("refresh_token") || sessionStorage.getItem("refresh_token")
-
               if (refreshToken) {
                 const refreshResponse = await ky
                   .post(`${BASE_URL}/refresh`, {
@@ -44,7 +42,6 @@ const createKyInstance = () => {
                 if (refreshResponse.tokens) {
                   const { token, remember_token } = refreshResponse.tokens.access
 
-                  // Update tokens in storage
                   if (localStorage.getItem("token")) {
                     localStorage.setItem("token", token)
                     localStorage.setItem("remember_token", remember_token || "")
@@ -53,19 +50,21 @@ const createKyInstance = () => {
                     sessionStorage.setItem("remember_token", remember_token || "")
                   }
 
-                  // Update auth store
+                  // ✅ Gọi useAuthStore.getState() bên trong logic thực thi
+                  const authStore = useAuthStore.getState()
                   authStore.setTokens({
                     accessToken: token,
                     refreshToken: remember_token || "",
                   })
 
-                  // Retry the original request
+                  // Retry original request
                   request.headers.set("Authorization", `Bearer ${token} ${remember_token || ""}`)
                   return ky(request)
                 }
               }
             } catch (error) {
-              // If refresh fails, log out the user
+              // ❌ Nếu refresh fail, logout
+              const authStore = useAuthStore.getState()
               authStore.logout()
               return response
             }
@@ -85,26 +84,19 @@ const createKyInstance = () => {
   })
 }
 
-// Export API instance
 export const api = createKyInstance()
 
-// Helper function to handle API responses\
-export const handleApiResponse = async <T>(promise: Promise<any>)
-: Promise<T> =>
-{
+export const handleApiResponse = async <T>(promise: Promise<any>): Promise<T> => {
   try {
     const data = await promise
-    return data as T;
+    return data as T
   } catch (error: any) {
     if (error.response) {
-      // For 401 errors when accessing /sessions endpoint, don't reject the promise
       if (error.response.status === 401 && error.request.url.includes("/sessions")) {
         console.log("Handling 401 error silently for auth check")
-        // Return an empty successful response instead of rejecting
-        return { user: null, loggedIn: false } as unknown as T;
+        return { user: null, loggedIn: false } as unknown as T
       }
 
-      // Try to parse error response
       try {
         const errorData = await error.response.json()
         throw errorData
