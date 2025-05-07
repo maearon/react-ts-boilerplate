@@ -55,7 +55,7 @@ const MicropostItem: React.FC<MicropostItemProps> = ({ micropost, onDelete }) =>
         </div>
         <div className="text-muted small">
           Posted {micropost.timestamp} ago.
-          {user?.id === parseInt(micropost.user_id) && (
+          {String(user?.id) === String(micropost.user_id) && (
             <a href="#" onClick={handleDelete} className="ms-2">
               delete
             </a>

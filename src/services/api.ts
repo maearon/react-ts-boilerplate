@@ -21,7 +21,6 @@ const createKyInstance = () => {
   return ky.create({
     prefixUrl: BASE_URL,
     headers: {
-      "Content-Type": "application/json",
       Accept: "application/json",
       "x-lang": "EN",
     },
