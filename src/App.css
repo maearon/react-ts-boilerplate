@@ -40,3 +40,11 @@
 .read-the-docs {
   color: #888;
 }
+
+/* App-specific styles */
+.jumbotron {
+  padding: 4rem 2rem;
+  margin-bottom: 2rem;
+  background-color: #e9ecef;
+  border-radius: 0.3rem;
+}
