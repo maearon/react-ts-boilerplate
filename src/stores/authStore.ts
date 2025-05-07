@@ -12,7 +12,6 @@ interface AuthState {
   accessToken: string | null
   refreshToken: string | null
 
-  // Actions
   login: (credentials: LoginCredentials) => Promise<void>
   logout: () => Promise<void>
   checkAuthStatus: () => Promise<void>
@@ -20,9 +19,21 @@ interface AuthState {
   clearError: () => void
 }
 
+interface LoginResponse {
+  tokens?: {
+    access?: { token: string }
+    refresh?: { token: string }
+  }
+  user?: User
+}
+
+interface SessionResponse {
+  user?: User
+}
+
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       user: null,
       loggedIn: false,
       loading: false,
@@ -35,26 +46,29 @@ export const useAuthStore = create<AuthState>()(
         set({ loading: true, error: null })
 
         try {
-          const response = await handleApiResponse(api.post("login", { json: { session: credentials } }).json())
+          const rawResponse = await handleApiResponse(
+            api.post("login", { json: { session: credentials } }).json()
+          )
+          const response = rawResponse as LoginResponse
 
-          if (response.tokens && response.tokens.access) {
-            const { token } = response.tokens.access
-            const rememberToken = response.tokens.refresh?.token || ""
+          if (response.tokens?.access?.token) {
+            const accessToken = response.tokens.access.token
+            const refreshToken = response.tokens.refresh?.token || ""
 
             if (credentials.remember_me) {
-              localStorage.setItem("token", token)
-              localStorage.setItem("remember_token", rememberToken)
+              localStorage.setItem("token", accessToken)
+              localStorage.setItem("remember_token", refreshToken)
             } else {
-              sessionStorage.setItem("token", token)
-              sessionStorage.setItem("remember_token", rememberToken)
+              sessionStorage.setItem("token", accessToken)
+              sessionStorage.setItem("remember_token", refreshToken)
             }
 
             set({
               loading: false,
               loggedIn: true,
-              user: response.user,
-              accessToken: token,
-              refreshToken: rememberToken,
+              user: response.user ?? null,
+              accessToken,
+              refreshToken,
             })
           } else {
             throw new Error("Invalid response from server")
@@ -71,7 +85,6 @@ export const useAuthStore = create<AuthState>()(
         } catch (error) {
           console.error("Logout error:", error)
         } finally {
-          // Even if API call fails, still clear local storage
           localStorage.removeItem("token")
           localStorage.removeItem("remember_token")
           sessionStorage.removeItem("token")
@@ -97,9 +110,10 @@ export const useAuthStore = create<AuthState>()(
         set({ loading: true })
 
         try {
-          const response = await handleApiResponse(api.get("sessions").json())
+          const rawResponse = await handleApiResponse(api.get("sessions").json())
+          const response = rawResponse as SessionResponse
 
-          if (response && response.user) {
+          if (response.user) {
             set({
               loading: false,
               loggedIn: true,
@@ -114,7 +128,7 @@ export const useAuthStore = create<AuthState>()(
               initialized: true,
             })
           }
-        } catch (error) {
+        } catch {
           set({
             loading: false,
             loggedIn: false,
@@ -124,11 +138,8 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      setTokens: (tokens) => {
-        set({
-          accessToken: tokens.accessToken,
-          refreshToken: tokens.refreshToken,
-        })
+      setTokens: ({ accessToken, refreshToken }) => {
+        set({ accessToken, refreshToken })
       },
 
       clearError: () => {
@@ -143,6 +154,6 @@ export const useAuthStore = create<AuthState>()(
         accessToken: state.accessToken,
         refreshToken: state.refreshToken,
       }),
-    },
-  ),
+    }
+  )
 )

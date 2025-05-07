@@ -8,8 +8,8 @@ if (process.env.NODE_ENV === "development") {
   BASE_URL = "https://ruby-rails-boilerplate-3s9t.onrender.com/api"
 }
 
-type RefreshResponse = {
-  tokens?: {
+interface RefreshResponse {
+  tokens: {
     access: {
       token: string
       remember_token?: string
@@ -37,10 +37,16 @@ const createKyInstance = () => {
         },
       ],
       afterResponse: [
-        async (request, options, response) => {
-          if (response.status === 401 && !request.url.includes("/sessions") && !request.url.includes("/refresh")) {
+        async (request, _options, response) => {
+          if (
+            response.status === 401 &&
+            !request.url.includes("/sessions") &&
+            !request.url.includes("/refresh")
+          ) {
             try {
-              const refreshToken = localStorage.getItem("refresh_token") || sessionStorage.getItem("refresh_token")
+              const refreshToken =
+                localStorage.getItem("refresh_token") || sessionStorage.getItem("refresh_token")
+
               if (refreshToken) {
                 const refreshResponse = await ky
                   .post(`${BASE_URL}/refresh`, {
@@ -48,27 +54,24 @@ const createKyInstance = () => {
                   })
                   .json<RefreshResponse>()
 
-                if (refreshResponse.tokens) {
-                  const { token, remember_token } = refreshResponse.tokens.access
+                const { token, remember_token } = refreshResponse.tokens.access
 
-                  if (localStorage.getItem("token")) {
-                    localStorage.setItem("token", token)
-                    localStorage.setItem("remember_token", remember_token || "")
-                  } else {
-                    sessionStorage.setItem("token", token)
-                    sessionStorage.setItem("remember_token", remember_token || "")
-                  }
-
-                  const authStore = useAuthStore.getState()
-                  authStore.setTokens({
-                    accessToken: token,
-                    refreshToken: remember_token || "",
-                  })
-
-                  // Retry original request
-                  request.headers.set("Authorization", `Bearer ${token} ${remember_token || ""}`)
-                  return ky(request)
+                if (localStorage.getItem("token")) {
+                  localStorage.setItem("token", token)
+                  localStorage.setItem("remember_token", remember_token || "")
+                } else {
+                  sessionStorage.setItem("token", token)
+                  sessionStorage.setItem("remember_token", remember_token || "")
                 }
+
+                const authStore = useAuthStore.getState()
+                authStore.setTokens({
+                  accessToken: token,
+                  refreshToken: remember_token || "",
+                })
+
+                request.headers.set("Authorization", `Bearer ${token} ${remember_token || ""}`)
+                return ky(request)
               }
             } catch (error) {
               const authStore = useAuthStore.getState()
@@ -93,7 +96,7 @@ const createKyInstance = () => {
 
 export const api = createKyInstance()
 
-export const handleApiResponse = async <T>(promise: Promise<any>): Promise<T> => {
+export const handleApiResponse = async <T>(promise: Promise<T>): Promise<T> => {
   try {
     const data = await promise
     return data as T
@@ -107,7 +110,7 @@ export const handleApiResponse = async <T>(promise: Promise<any>): Promise<T> =>
       try {
         const errorData = await error.response.json()
         throw errorData
-      } catch (parseError) {
+      } catch {
         throw error
       }
     }
