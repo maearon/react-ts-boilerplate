@@ -70,7 +70,7 @@ const Login = () => {
                       id="email"
                       isInvalid={touched.email && !!errors.email}
                     />
-                    <ErrorMessage name="email" component={Form.Control.Feedback} type="invalid" />
+                    <ErrorMessage name="email" component={Form.Control.Feedback} />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
@@ -82,7 +82,7 @@ const Login = () => {
                       id="password"
                       isInvalid={touched.password && !!errors.password}
                     />
-                    <ErrorMessage name="password" component={Form.Control.Feedback} type="invalid" />
+                    <ErrorMessage name="password" component={Form.Control.Feedback} />
                   </Form.Group>
 
                   <Form.Group className="mb-3">

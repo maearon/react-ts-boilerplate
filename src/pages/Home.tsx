@@ -25,7 +25,7 @@ const Home: React.FC = () => {
   const [followingCount, setFollowingCount] = useState(0)
   const [followersCount, setFollowersCount] = useState(0)
   const [micropostCount, setMicropostCount] = useState(0)
-  const [gravatar, setGravatar] = useState("")
+  // const [gravatar, setGravatar] = useState("")
 
   const loadFeed = async () => {
     try {
@@ -35,7 +35,7 @@ const Home: React.FC = () => {
       setFollowingCount(response.following || 0)
       setFollowersCount(response.followers || 0)
       setMicropostCount(response.micropost || 0)
-      setGravatar(response.gravatar || "")
+      // setGravatar(response.gravatar || "")
     } catch (error) {
       console.error("Error loading feed:", error)
       toast.error("Failed to load feed")
@@ -99,7 +99,7 @@ const Home: React.FC = () => {
 
         <Card className="mb-4">
           <Card.Body>
-            <UserStats userId={user?.id} following={followingCount} followers={followersCount} />
+            <UserStats userId={user?.id ?? ""} following={followingCount} followers={followersCount} />
           </Card.Body>
         </Card>
 

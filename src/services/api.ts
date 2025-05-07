@@ -8,6 +8,15 @@ if (process.env.NODE_ENV === "development") {
   BASE_URL = "https://ruby-rails-boilerplate-3s9t.onrender.com/api"
 }
 
+type RefreshResponse = {
+  tokens?: {
+    access: {
+      token: string
+      remember_token?: string
+    }
+  }
+}
+
 const createKyInstance = () => {
   return ky.create({
     prefixUrl: BASE_URL,
@@ -37,7 +46,7 @@ const createKyInstance = () => {
                   .post(`${BASE_URL}/refresh`, {
                     json: { refresh_token: refreshToken },
                   })
-                  .json()
+                  .json<RefreshResponse>()
 
                 if (refreshResponse.tokens) {
                   const { token, remember_token } = refreshResponse.tokens.access
@@ -50,7 +59,6 @@ const createKyInstance = () => {
                     sessionStorage.setItem("remember_token", remember_token || "")
                   }
 
-                  // ✅ Gọi useAuthStore.getState() bên trong logic thực thi
                   const authStore = useAuthStore.getState()
                   authStore.setTokens({
                     accessToken: token,
@@ -63,7 +71,6 @@ const createKyInstance = () => {
                 }
               }
             } catch (error) {
-              // ❌ Nếu refresh fail, logout
               const authStore = useAuthStore.getState()
               authStore.logout()
               return response

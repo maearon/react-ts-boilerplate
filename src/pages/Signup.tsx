@@ -97,7 +97,7 @@ const Signup = () => {
                       id="name"
                       isInvalid={touched.name && !!errors.name}
                     />
-                    <ErrorMessage name="name" component={Form.Control.Feedback} type="invalid" />
+                    <ErrorMessage name="name" component={Form.Control.Feedback} />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
@@ -109,7 +109,7 @@ const Signup = () => {
                       id="email"
                       isInvalid={touched.email && !!errors.email}
                     />
-                    <ErrorMessage name="email" component={Form.Control.Feedback} type="invalid" />
+                    <ErrorMessage name="email" component={Form.Control.Feedback} />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
@@ -121,7 +121,7 @@ const Signup = () => {
                       id="password"
                       isInvalid={touched.password && !!errors.password}
                     />
-                    <ErrorMessage name="password" component={Form.Control.Feedback} type="invalid" />
+                    <ErrorMessage name="password" component={Form.Control.Feedback} />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
@@ -133,7 +133,7 @@ const Signup = () => {
                       id="password_confirmation"
                       isInvalid={touched.password_confirmation && !!errors.password_confirmation}
                     />
-                    <ErrorMessage name="password_confirmation" component={Form.Control.Feedback} type="invalid" />
+                    <ErrorMessage name="password_confirmation" component={Form.Control.Feedback} />
                   </Form.Group>
 
                   <Button variant="primary" type="submit" className="w-100" disabled={isSubmitting}>

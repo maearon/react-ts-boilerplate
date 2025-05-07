@@ -58,7 +58,7 @@ const PasswordResetsNew = () => {
                       id="email"
                       isInvalid={touched.email && !!errors.email}
                     />
-                    <ErrorMessage name="email" component={Form.Control.Feedback} type="invalid" />
+                    <ErrorMessage name="email" component={Form.Control.Feedback} />
                   </Form.Group>
 
                   <Button variant="primary" type="submit" className="w-100" disabled={isSubmitting}>

@@ -94,7 +94,7 @@ const PasswordResets = () => {
                       id="password"
                       isInvalid={touched.password && !!errors.password}
                     />
-                    <ErrorMessage name="password" component={Form.Control.Feedback} type="invalid" />
+                    <ErrorMessage name="password" component={Form.Control.Feedback} />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
@@ -106,7 +106,7 @@ const PasswordResets = () => {
                       id="password_confirmation"
                       isInvalid={touched.password_confirmation && !!errors.password_confirmation}
                     />
-                    <ErrorMessage name="password_confirmation" component={Form.Control.Feedback} type="invalid" />
+                    <ErrorMessage name="password_confirmation" component={Form.Control.Feedback} />
                   </Form.Group>
 
                   <Button variant="primary" type="submit" className="w-100" disabled={isSubmitting}>
