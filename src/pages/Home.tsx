@@ -15,6 +15,7 @@ import UserStats from "@/components/User/UserStats"
 import { getMicroposts } from "@/services/micropostService"
 import type { Micropost } from "@/types/micropost"
 import LoadingSpinner from "@/components/UI/LoadingSpinner"
+import reactLogo from "@/assets/react.svg"
 
 const Home: React.FC = () => {
   const { loggedIn, user } = useAuthStore()
@@ -81,7 +82,7 @@ const Home: React.FC = () => {
         </Link>
         <div className="text-center mt-4">
           <a href="https://react.dev/" target="_blank" rel="noopener noreferrer">
-            <img src="/react.svg" alt="React logo" width="180" height="38" />
+            <img src={reactLogo} alt="React logo" width="180" height="38" />
           </a>
         </div>
       </div>
