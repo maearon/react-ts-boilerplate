@@ -13,21 +13,22 @@
 #sidebar.collapsed {
   min-width: 60px;
   max-width: 60px;
-  margin-left: -250px;
-  transform: rotateY(100deg);
+  margin-left: 0;
+  transform: none;
+  transform: rotateY(90deg);
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  #sidebar {
+/* @media (max-width: 768px) { */
+  /* #sidebar {
     margin-left: -250px;
     transform: rotateY(90deg);
-  }
+  } */
   #sidebar.collapsed {
     margin-left: 0;
     transform: none;
   }
-}
+/* } */
 
 /* Sidebar header */
 .sidebar-header {
