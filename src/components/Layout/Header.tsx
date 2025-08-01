@@ -27,19 +27,20 @@ const Header: React.FC = () => {
   return (
     <Navbar bg="primary" variant="dark" expand="lg" expanded={expanded}>
       <Container>
-        <Navbar.Brand as={Link} to="/">
+        {/* <Navbar.Brand as={Link} to="/">
           Sample App
-        </Navbar.Brand>
+        </Navbar.Brand> */}
         <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setExpanded(expanded ? false : true)} />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/" onClick={() => setExpanded(false)}>
+            {/* <Nav.Link as={Link} to="/" onClick={() => setExpanded(false)}>
               Home
-            </Nav.Link>
+            </Nav.Link> */}
             {loggedIn && (
-              <Nav.Link as={Link} to="/users" onClick={() => setExpanded(false)}>
-                Users
-              </Nav.Link>
+              <></>
+              // <Nav.Link as={Link} to="/users" onClick={() => setExpanded(false)}>
+              //   Users
+              // </Nav.Link>
             )}
           </Nav>
           <Nav>

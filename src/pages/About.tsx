@@ -5,7 +5,7 @@ const About = () => {
       <p>
         The{" "}
         <a href="https://react.dev/" target="_blank" rel="noopener noreferrer">
-          React Tutorial
+          Adidas Dashboard
         </a>{" "}
         is a project to make a sample application following the React.js framework.
       </p>

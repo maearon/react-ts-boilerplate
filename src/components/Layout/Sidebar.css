@@ -1,0 +1,156 @@
+/* Sidebar */
+#sidebar {
+  /* min-width: 250px; */
+  max-width: 250px;
+  /* height: 100vh; */
+  background: linear-gradient(to bottom, #4e54c8, #8f94fb);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  transform-origin: left;
+  transition: all 0.6s cubic-bezier(0.945, 0.02, 0.27, 0.665);
+}
+#sidebar.collapsed {
+  min-width: 60px;
+  max-width: 60px;
+  margin-left: -250px;
+  transform: rotateY(100deg);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #sidebar {
+    margin-left: -250px;
+    transform: rotateY(90deg);
+  }
+  #sidebar.collapsed {
+    margin-left: 0;
+    transform: none;
+  }
+}
+
+/* Sidebar header */
+.sidebar-header {
+  background: #4e54c8;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Sidebar nav list */
+#sidebar ul.components {
+  padding: 20px 0;
+  margin: 0;
+  list-style: none;
+}
+#sidebar ul.components p {
+  padding: 0 1rem;
+  font-size: 0.75rem;
+  color: #ced6e0;
+  text-transform: uppercase;
+}
+
+/* Sidebar item */
+#sidebar ul li {
+  padding: 0;
+}
+#sidebar ul li a {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  color: #dcdde1;
+  text-decoration: none;
+  transition: background 0.3s, color 0.3s;
+}
+#sidebar ul li a .icon {
+  margin-right: 12px;
+  min-width: 20px;
+  font-size: 1.1rem;
+}
+#sidebar ul li a:hover,
+#sidebar ul li.active > a {
+  background: #1e90ff;
+  color: #fff;
+}
+
+/* Collapsed hide labels */
+#sidebar.collapsed .sidebar-header h5,
+#sidebar.collapsed ul.components p,
+#sidebar.collapsed ul li a span,
+#sidebar.collapsed .CTAs {
+  display: none;
+}
+#sidebar.collapsed ul li a {
+  justify-content: center;
+}
+#sidebar.collapsed ul li a .icon {
+  margin-right: 0;
+}
+
+/* CTA links */
+.CTAs {
+  padding: 0 1rem;
+  margin-top: auto;
+}
+.CTAs li a {
+  display: block;
+  padding: 10px;
+  margin: 10px 0;
+  background: #3742fa;
+  color: #fff;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 0.85rem;
+  transition: background 0.3s;
+}
+.CTAs li a:hover {
+  background: #1e90ff;
+}
+
+/* Toggle button */
+#sidebarCollapse {
+  position: absolute;
+  top: 10px;
+  right: -20px;
+  z-index: 1001;
+  width: 40px;
+  height: 40px;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  transition: left 0.3s;
+}
+#sidebarCollapse.left-collapsed {
+  left: 10px;
+}
+#sidebarCollapse.left-open {
+  left: 260px;
+}
+
+/* Hamburger icon */
+#sidebarCollapse span {
+  width: 70%;
+  height: 2px;
+  margin: 0 auto;
+  display: block;
+  background: #333;
+  transition: all 0.3s;
+}
+#sidebarCollapse.left-collapsed span:first-of-type {
+  transform: rotate(45deg) translate(2px, 2px);
+}
+#sidebarCollapse.left-collapsed span:nth-of-type(2) {
+  opacity: 0;
+}
+#sidebarCollapse.left-collapsed span:last-of-type {
+  transform: rotate(-45deg) translate(1px, -1px);
+}

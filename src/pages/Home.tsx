@@ -68,12 +68,12 @@ const Home: React.FC = () => {
   if (!loggedIn) {
     return (
       <div className="text-center jumbotron bg-light p-5 rounded">
-        <h1 className="display-4">Welcome to the Sample App</h1>
+        <h1 className="display-4">Welcome to the Adidas Dashboard</h1>
         <p className="lead">
           This is the home page for the
           <a href="https://react.dev/" target="_blank" rel="noopener noreferrer">
             {" "}
-            React Tutorial{" "}
+            Adidas Dashboard{" "}
           </a>
           sample application.
         </p>

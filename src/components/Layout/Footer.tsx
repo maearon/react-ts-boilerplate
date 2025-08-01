@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
         <small>
           The{" "}
           <a href="https://react.dev/" target="_blank" rel="noopener noreferrer">
-            React Tutorial
+            Adidas Dashboard
           </a>{" "}
           by{" "}
           <a href="https://github.com/maearon" target="_blank" rel="noopener noreferrer">
