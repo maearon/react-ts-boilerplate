@@ -35,7 +35,7 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
         <span></span>
       </button>
 
-
+      {/* <div className="wrapper"> */}
         <nav id="sidebar" className={isOpen ? "" : "collapsed"}>
           <div className="sidebar-header px-3 py-2">
             {isOpen && <h5 className="m-0">ADIDAS DASHBOARD</h5>}
@@ -43,7 +43,11 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
 
           <ul className="list-unstyled components">
             <p>{isOpen && "Management"}</p>
-            <li className={isActive("/") && !location.pathname.includes("users") && !location.pathname.includes("products") && !location.pathname.includes("orders") ? "active" : ""}>
+            <li className={isActive("/") 
+              && !location.pathname.includes("users") 
+              && !location.pathname.includes("products")
+              && !location.pathname.includes("orders")
+              && !location.pathname.includes("about") ? "active" : ""}>
               <NavLink to="/" className="dropdown-toggle">
                 <FaHome className="icon" />
                 {isOpen && "Admin Home"}
@@ -95,7 +99,7 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
             </ul>
           )}
         </nav>
-
+      {/* </div> */}
     </>
   )
 }
